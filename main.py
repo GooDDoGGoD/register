@@ -3,6 +3,7 @@ import os
 import onnxruntime as rt
 from transformers import DistilBertTokenizer
 import numpy as np
+import urllib
 
 
 app = Flask(__name__)
@@ -32,6 +33,7 @@ def dialog():
 @app.route('/add', methods=['GET'])
 def add():
     post = str(request.query_string).replace('%20', ' ')[2:-1]
+    post = urllib.parse.unquote(post)
     if proverka(post) == 0:
         posts.append('*** ' * len(post))
         return f'<h1>Сообщение "{post}" удаленно</h1>'
