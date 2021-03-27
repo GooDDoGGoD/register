@@ -9,7 +9,7 @@ app = Flask(__name__)
 posts = []
 
 tokenizer = DistilBertTokenizer.from_pretrained(
-    'уникальный ийпи'
+    'distilbert-base-uncased'
 )
 model = rt.InferenceSession(
     'models/model-quantized.onnx',
