@@ -35,7 +35,7 @@ def add():
     post = str(request.query_string).replace('%20', ' ')[2:-1]
     post = urllib.parse.unquote(post)
     if proverka(post) == 0:
-        posts.append('*** ' * len(post))
+        posts.append(' '.join(['*' * len(x) for x in post.split()]))
         return f'<h1>Сообщение "{post}" удаленно</h1>'
     posts.append(post)
     return f'<h1>Сообщение "{post}" отправленно</h1>'
