@@ -25,6 +25,7 @@ def proverka(text):
     return outp[0][0].argmax()
 
 
+@app.route('/', methods=['GET'])
 @app.route('/dialog', methods=['GET'])
 def dialog():
     return '<br>'.join(posts)
