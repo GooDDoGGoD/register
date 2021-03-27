@@ -20,7 +20,8 @@ model = rt.InferenceSession(
 def proverka(text):
     m_i = tokenizer(text, truncation=True, padding=True)
     m_i = {k: np.array([v]) for k, v in m_i.items()}
-    return model.run(None, m_i)[0][0].argmax()
+    outp = model.run(None, m_i)
+    return outp[0][0].argmax()
 
 
 @app.route('/dialog', methods=['GET'])
@@ -31,11 +32,11 @@ def dialog():
 @app.route('/add', methods=['GET'])
 def add():
     post = str(request.query_string).replace('%20', ' ')[2:-1]
-    if proverka(post) == 1:
-        posts.append(' '.join(['*' * len(x) for x in post.split()]))
-        return '<h1>Сообщение удаленно</h1>'
+    if proverka(post) == 0:
+        posts.append('*** ' * len(post))
+        return f'<h1>Сообщение "{post}" удаленно</h1>'
     posts.append(post)
-    return '<h1>Сообщение отправленно</h1>'
+    return f'<h1>Сообщение "{post}" отправленно</h1>'
 
 
-app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 500)))
+app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
